@@ -1,0 +1,28 @@
+header {
+  background-color: var(--brand);
+  height: 10vh;
+  font-size: 25px;
+}
+
+header h1 {
+  position: relative;
+  display: inline-flex;
+  height: 100%;
+  align-items: center;
+  margin: 0px 10px;
+  font-size: 25px;
+  background: linear-gradient(to right, #ffe2ed, #d5dbff, #d5fdd8);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.about {
+  color: white;
+  margin-left: 2em;
+}
+
+#palette-icon {
+  height: 1.3em;
+  position: absolute;
+  right: -42px;
+}
