@@ -1,0 +1,19 @@
+.tool-bar {
+  height: 90vh;
+  width: 50px;
+  display: flex;
+  flex-direction: column;
+}
+
+.tool-bar i {
+  font-size: 1.2em;
+  padding: 5px;
+  margin: 5px;
+  border-radius: 3px;
+  display: flex;
+  justify-content: center;
+}
+
+.tool-bar i:hover {
+  background-color: rgba(0 0 0 /0.3);
+}

@@ -57,3 +57,16 @@ ol {
 body {
   background-color: black;
 }
+
+main {
+  display: flex;
+}
+
+.tool-bar {
+  background-color: lightblue;
+  width: 50px;
+}
+
+.board {
+  flex: 1;
+}

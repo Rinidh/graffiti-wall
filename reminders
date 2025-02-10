@@ -1,10 +1,57 @@
-create about dialog but leave blank
 create either side nav bars & center canvas
 
 
 
-
 ---------------------
-Extras in future:
+goals till Fri:
+- able to draw lines & rects & circles, draggable ends, click elsewhere to paint it permanent
+- dialog box for: 1. style line width (list of 3 width options) 2. set dash (on/off)
+- able to fill colors
+- import img
+- save painting
+
+
+Extras in future (see original plan):
 - responsive design
 - more features, UI, and overall feel, like Paint desktop app (after you've got some xp)
+- fill gradients
+- write & style text
+
+
+# Original Plan:
+### Project: Digital Graffiti Wall
+Create a graffiti-style drawing app where users can:
+
+Draw freehand using different brush styles.
+Add text with various fonts and styles.
+Insert images and modify them.
+Use gradients, shadows, and transparency for effects.
+Create cutout effects for unique designs.
+How It Uses Your Learned Methods
+✅ Shapes & Drawing
+
+fillRect(), strokeRect(), rect() → Background elements, UI panels.
+beginPath(), moveTo(), lineTo() → Freehand drawing tool.
+setLineDash(), lineDashOffset() → Dashed brush effects.
+arc(), arcTo() → Circular spray paint effects.
+quadraticCurveTo(), bezierCurveTo() → Smooth curves in drawing.
+✅ Styling & Effects
+
+lineWidth, lineJoin → Brush thickness & smooth corners.
+globalAlpha → Transparency for layering spray effects.
+createLinearGradient(), createRadialGradient() → Colorful paint effects.
+createPattern() → Custom brush patterns (e.g., brick or spray dots).
+shadows → 3D text or glowing effects.
+✅ Text & Fonts
+
+fillText(), strokeText() → Custom graffiti text.
+font styling → Bold, italic, fancy fonts.
+✅ Images & Cutouts
+
+drawImage() → Import and slice images for graffiti stickers.
+clearRect() → Erase portions like a real spray wall.
+"Holes in shapes" → Cutout effects in text and patterns.
+Extra Features to Try
+Spray Paint Effect: Use arc() with random dots inside for a cool spray effect.
+Eraser Tool: Use globalCompositeOperation = 'destination-out' to erase like a real spray can.
+Save Artwork: Use canvas.toDataURL() to download the graffiti.
