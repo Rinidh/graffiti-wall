@@ -1,11 +1,13 @@
 header {
+  /* position: relative; */
+  display: flex;
+  align-items: center;
   background-color: var(--brand);
   height: 10vh;
   font-size: 25px;
 }
 
 header h1 {
-  position: relative;
   display: inline-flex;
   height: 100%;
   align-items: center;
@@ -16,13 +18,45 @@ header h1 {
   -webkit-text-fill-color: transparent;
 }
 
-.about {
-  color: white;
-  margin-left: 2em;
+#palette-icon {
+  display: inline-block;
+  height: 1.3em;
 }
 
-#palette-icon {
-  height: 1.3em;
+.about-container {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  height: 100%;
+  margin-left: 100px;
+  color: white;
+}
+
+.about-container .info {
+  display: none;
   position: absolute;
-  right: -42px;
+  top: 70%;
+  left: -20px;
+  width: 300px;
+  background-color: var(--brand);
+  padding: 20px 10px;
+  border-radius: 10px;
+  font-size: 1rem;
+  overflow-wrap: normal;
+}
+
+.about-container:hover .info {
+  display: block;
+}
+
+.info a {
+  padding: 5px;
+  border-radius: 3px;
+  background-color: white;
+  color: var(--brand);
+  font-size: 0.8em;
+}
+
+.info a:hover {
+  background-color: rgb(221, 221, 221);
 }

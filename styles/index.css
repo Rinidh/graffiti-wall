@@ -43,9 +43,17 @@ ol {
   list-style: none;
 }
 
+/* set all transitions similarly*/
+* {
+  transition: all 200ms ease;
+}
+
 /* custom css properties */
 :root {
   --brand: rgb(0, 0, 77);
 }
 
 /* Apply my/NEW styles */
+body {
+  background-color: black;
+}
