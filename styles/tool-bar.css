@@ -1,4 +1,5 @@
 .tool-bar {
+  background-color: rgb(226, 226, 226);
   height: 90vh;
   width: 50px;
   display: flex;

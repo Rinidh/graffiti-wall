@@ -55,7 +55,8 @@ ol {
 
 /* Apply my/NEW styles */
 body {
-  background-color: black;
+  /* background-color: black; */
+  background-color: rgb(244, 244, 244);
 }
 
 main {
@@ -63,10 +64,9 @@ main {
 }
 
 .tool-bar {
-  background-color: lightblue;
   width: 50px;
 }
 
-.board {
+.board-container {
   flex: 1;
 }

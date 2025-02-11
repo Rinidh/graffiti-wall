@@ -1,0 +1,12 @@
+.board-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.board {
+  background-color: white;
+  height: 500px;
+  width: 1000px;
+  box-shadow: 3px 3px 5px 5px rgb(186, 186, 186);
+}
