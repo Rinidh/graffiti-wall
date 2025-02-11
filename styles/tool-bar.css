@@ -18,3 +18,9 @@
 .tool-bar i:hover {
   background-color: rgba(0 0 0 /0.3);
 }
+
+.left-bar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

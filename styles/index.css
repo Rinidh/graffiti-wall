@@ -56,7 +56,6 @@ ol {
 /* Apply my/NEW styles */
 body {
   /* background-color: black; */
-  background-color: rgb(244, 244, 244);
 }
 
 main {
@@ -69,4 +68,18 @@ main {
 
 .board-container {
   flex: 1;
+}
+
+.vert-text-container {
+  position: relative;
+  display: inline-block;
+}
+
+.vert-text {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  width: max-content;
+  transform-origin: center left;
+  transform: rotate(-90deg);
 }
