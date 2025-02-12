@@ -10,6 +10,10 @@ let ctx = currentBoard.getContext("2d")
 let startX, startY
 let isDrawing = false
 
+///
+ctx.strokeStyle = "red"
+currentBoard.style.backgroundColor = "black"
+
 toolIcons.forEach((icon, idx) => {
   icon.addEventListener("click", () => {
     deactivateAll()
@@ -55,11 +59,9 @@ function triggerLineTool() {
   })
 
   currentBoard.addEventListener("mousemove", (e) => {
-    // console.log(isDrawing)
     if (!isDrawing) return;
 
     ctx.clearRect(0, 0, currentBoard.width, currentBoard.height) //canvas elems have .height & .width, more accurate than .clientHeight & .clientWidth global props
-
     ctx.beginPath()
     ctx.moveTo(startX, startY)
     ctx.lineTo(e.offsetX, e.offsetY)
@@ -74,10 +76,56 @@ function triggerLineTool() {
 }
 
 function triggerCircleTool() {
+  removeAllEventListeners()
+
+  currentBoard.addEventListener("mousedown", (e) => {
+    startX = e.offsetX
+    startY = e.offsetY
+    isDrawing = true
+  })
+
+  currentBoard.addEventListener("mousemove", (e) => {
+    if (!isDrawing) return
+
+    ctx.clearRect(0, 0, currentBoard.width, currentBoard.height)
+    ctx.beginPath()
+    const dx = Math.abs(e.offsetX - startX)
+    const dy = Math.abs(e.offsetY - startY)
+    ctx.ellipse(startX, startY, dx, dy, 0, 0, Math.PI * 2, false)
+    ctx.stroke()
+
+  })
+
+  currentBoard.addEventListener("mouseup", () => {
+    isDrawing = false
+  })
 
 }
 
 function triggerRectangleTool() {
+  removeAllEventListeners()
+
+  currentBoard.addEventListener("mousedown", (e) => {
+    startX = e.offsetX
+    startY = e.offsetY
+    isDrawing = true
+  })
+
+  currentBoard.addEventListener("mousemove", (e) => {
+    if (!isDrawing) return
+
+    ctx.clearRect(0, 0, currentBoard.width, currentBoard.height)
+    ctx.beginPath()
+    const dx = e.offsetX - startX
+    const dy = e.offsetY - startY
+    ctx.rect(startX, startY, dx, dy)
+    ctx.stroke()
+
+  })
+
+  currentBoard.addEventListener("mouseup", () => {
+    isDrawing = false
+  })
 
 }
 
@@ -89,5 +137,9 @@ function removeAllEventListeners() {
   currentBoard.height = currentBoard.clientHeight
   currentBoard.width = currentBoard.clientWidth
   ctx = currentBoard.getContext("2d") //reinitialize context to use context of the new board
+
+  ///
+  ctx.strokeStyle = "red"
+  currentBoard.style.backgroundColor = "black"
 
 }
