@@ -43,6 +43,7 @@ header h1 {
   border-radius: 10px;
   font-size: 1rem;
   overflow-wrap: normal;
+  z-index: 100;
 }
 
 .about-container:hover .info {

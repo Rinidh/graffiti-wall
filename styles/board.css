@@ -23,4 +23,5 @@
   padding: 10px;
   border-radius: 8px;
   box-shadow: 0px 2px 10px var(--shadow-gray);
+  z-index: 90;
 }

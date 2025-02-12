@@ -15,8 +15,9 @@
   justify-content: center;
 }
 
-.tool-bar i:hover {
-  background-color: rgba(0 0 0 /0.3);
+.tool-bar i:hover,
+.tool-bar i.active {
+  background-color: rgba(0 0 0 /0.2);
 }
 
 .left-bar {
