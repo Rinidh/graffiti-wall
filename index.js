@@ -8,6 +8,7 @@ board.width = board.clientWidth
 let ctx = board.getContext("2d")
 let startX, startY
 let isDrawing = false
+let snapshot
 
 ///
 ctx.strokeStyle = "red"
@@ -35,6 +36,7 @@ board.addEventListener("mousedown", (e) => {
   startX = e.offsetX
   startY = e.offsetY
   isDrawing = true
+  snapshot = ctx.getImageData(0, 0, board.width, board.height)
 })
 
 board.addEventListener("mouseup", () => {
@@ -46,6 +48,8 @@ board.addEventListener("mousemove", handleMouseMove)
 function handleMouseMove(mouseEvent) {
   if (!isDrawing) return
 
+  ctx.clearRect(0, 0, board.width, board.height) //canvas elems have .height & .width, more accurate than .clientHeight & .clientWidth global props
+  ctx.putImageData(snapshot, 0, 0) //to preserve previous drawing while drawing new
   switch (rightToolBar.dataset.activeTool) {
     case "line":
       drawLine(mouseEvent)
@@ -64,7 +68,6 @@ function handleMouseMove(mouseEvent) {
 }
 
 function drawLine(e) {
-  ctx.clearRect(0, 0, board.width, board.height) //canvas elems have .height & .width, more accurate than .clientHeight & .clientWidth global props
   ctx.beginPath()
   ctx.moveTo(startX, startY)
   ctx.lineTo(e.offsetX, e.offsetY)
@@ -73,7 +76,6 @@ function drawLine(e) {
 }
 
 function drawCircle(e) {
-  ctx.clearRect(0, 0, board.width, board.height)
   ctx.beginPath()
   const dx = Math.abs(e.offsetX - startX)
   const dy = Math.abs(e.offsetY - startY)
@@ -82,7 +84,6 @@ function drawCircle(e) {
 }
 
 function drawRectangle(e) {
-  ctx.clearRect(0, 0, board.width, board.height)
   ctx.beginPath()
   const dx = e.offsetX - startX
   const dy = e.offsetY - startY
