@@ -1,5 +1,4 @@
-access current icon name from event, e
-make commit
+only draw line when line tool selected
 
 
 ---------------------
@@ -55,3 +54,56 @@ Extra Features to Try
 Spray Paint Effect: Use arc() with random dots inside for a cool spray effect.
 Eraser Tool: Use globalCompositeOperation = 'destination-out' to erase like a real spray can.
 Save Artwork: Use canvas.toDataURL() to download the graffiti.
+
+------------------------------
+
+
+const toolIcons = document.querySelectorAll(".tool-bar i")
+const rightToolBar = document.querySelector(".tool-bar.right-bar")
+const board = document.querySelector(".board")
+
+const ctx = board.getContext("2d")
+
+let startX
+let startY
+let isDrawing = false
+
+board.addEventListener("mousedown", (e) => {
+  startX = e.offsetX
+  startY = e.offsetY
+  isDrawing = true
+})
+
+board.addEventListener("mousemove", (e) => {
+  console.log(isDrawing)
+  ctx.lineWidth = 2
+
+  if (!isDrawing) return;
+
+  ctx.clearRect(0, 0, board.clientWidth, board.clientHeight)
+  ctx.moveTo(startX, startY)
+  ctx.beginPath()
+  ctx.lineTo(e.offsetX, e.offsetY)
+  ctx.stroke()
+
+})
+
+board.addEventListener("mouseup", () => {
+  isDrawing = false
+})
+
+toolIcons.forEach((icon, idx, toolIcons) => {
+  icon.addEventListener("click", () => {
+    deactivateAll(toolIcons)
+
+    rightToolBar.dataset.activeTool = icon.dataset.toolName
+    icon.classList.add("active")
+  })
+})
+
+function deactivateAll(nodeList) {
+  nodeList.forEach((elem) => {
+    elem.classList.remove("active")
+  })
+
+}
