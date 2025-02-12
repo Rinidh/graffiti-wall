@@ -1,18 +1,17 @@
 const toolIcons = document.querySelectorAll(".tool-bar i")
 const rightToolBar = document.querySelector(".tool-bar.right-bar")
-const initialBoard = document.querySelector(".board")
+const board = document.querySelector(".board")
 
-let currentBoard = initialBoard
-currentBoard.height = currentBoard.clientHeight //without explicitly setting these two to match CSS width (clientWidth) & CSS height (clientHeight), lines are drawn at default canvas 300 X 150 px size, appearing at weird postions on this big canvas
-currentBoard.width = currentBoard.clientWidth
+board.height = board.clientHeight //without explicitly setting these two to match CSS width (clientWidth) & CSS height (clientHeight), lines are drawn at default canvas 300 X 150 px size, appearing at weird postions on this big canvas
+board.width = board.clientWidth
 
-let ctx = currentBoard.getContext("2d")
+let ctx = board.getContext("2d")
 let startX, startY
 let isDrawing = false
 
 ///
 ctx.strokeStyle = "red"
-currentBoard.style.backgroundColor = "black"
+board.style.backgroundColor = "black"
 
 toolIcons.forEach((icon, idx) => {
   icon.addEventListener("click", () => {
@@ -32,17 +31,17 @@ function removeActiveClassAll() {
 }
 
 
-currentBoard.addEventListener("mousedown", (e) => {
+board.addEventListener("mousedown", (e) => {
   startX = e.offsetX
   startY = e.offsetY
   isDrawing = true
 })
 
-currentBoard.addEventListener("mouseup", () => {
+board.addEventListener("mouseup", () => {
   isDrawing = false
 })
 
-currentBoard.addEventListener("mousemove", handleMouseMove)
+board.addEventListener("mousemove", handleMouseMove)
 
 function handleMouseMove(mouseEvent) {
   if (!isDrawing) return
@@ -65,7 +64,7 @@ function handleMouseMove(mouseEvent) {
 }
 
 function drawLine(e) {
-  ctx.clearRect(0, 0, currentBoard.width, currentBoard.height) //canvas elems have .height & .width, more accurate than .clientHeight & .clientWidth global props
+  ctx.clearRect(0, 0, board.width, board.height) //canvas elems have .height & .width, more accurate than .clientHeight & .clientWidth global props
   ctx.beginPath()
   ctx.moveTo(startX, startY)
   ctx.lineTo(e.offsetX, e.offsetY)
@@ -74,7 +73,7 @@ function drawLine(e) {
 }
 
 function drawCircle(e) {
-  ctx.clearRect(0, 0, currentBoard.width, currentBoard.height)
+  ctx.clearRect(0, 0, board.width, board.height)
   ctx.beginPath()
   const dx = Math.abs(e.offsetX - startX)
   const dy = Math.abs(e.offsetY - startY)
@@ -83,7 +82,7 @@ function drawCircle(e) {
 }
 
 function drawRectangle(e) {
-  ctx.clearRect(0, 0, currentBoard.width, currentBoard.height)
+  ctx.clearRect(0, 0, board.width, board.height)
   ctx.beginPath()
   const dx = e.offsetX - startX
   const dy = e.offsetY - startY
