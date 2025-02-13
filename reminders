@@ -1,11 +1,10 @@
-tooltip hover
+switch case addeventlistener
 
 ---------------------
 goals till Fri:
 - able to draw lines & rects & circles, draggable ends
 - eraser & tooltips
-- click elsewhere to bitmap it permanent
-- dialog box for: 1. style line width (list of 3 width options) 2. set dash (on/off)
+- dialog box for: 1. style line width (num input) 2. set dash (on/off)
 - able to fill colors
 - import img
 - save painting

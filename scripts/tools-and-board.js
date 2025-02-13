@@ -2,6 +2,9 @@ const toolIcons = document.querySelectorAll(".tool-bar i")
 const rightToolBar = document.querySelector(".tool-bar.right-bar")
 const board = document.querySelector(".board")
 const eraser = document.querySelector(".eraser")
+const dialog = document.querySelector(".dialog")
+const lineOptions = document.querySelector(".line-options")
+const lineWidthInput = document.querySelector("#line-width")
 
 board.height = board.clientHeight //without explicitly setting these two to match CSS width (clientWidth) & CSS height (clientHeight), lines are drawn at default canvas 300 X 150 px size, appearing at weird postions on this big canvas
 board.width = board.clientWidth
@@ -10,6 +13,7 @@ let ctx = board.getContext("2d")
 let startX, startY
 let isDrawing = false //isDrawing is true when mousedown always, hence alternative name: "isMouseDown"
 let snapshot
+ctx.lineWidth = 1 //default
 
 ///
 // ctx.strokeStyle = "red"
@@ -26,6 +30,15 @@ toolIcons.forEach((icon, idx) => {
       eraser.style.display = "block"
     } else {
       eraser.style.display = "none"
+    }
+
+    if (rightToolBar.dataset.activeTool === "line") {
+      dialog.style.display = "block"
+      lineOptions.style.display = "block"
+    } else {
+      dialog.style.display = "none"
+      lineOptions.style.display = "none"
+
     }
   })
 })
@@ -51,6 +64,12 @@ board.addEventListener("mouseup", () => {
 })
 
 board.addEventListener("mousemove", handleMouseMove)
+
+lineWidthInput.addEventListener("change", (e) => {
+  const val = parseInt(e.target.value)
+
+  if (val >= 1 && val <= 5) ctx.lineWidth = val
+})
 
 function handleMouseMove(mouseEvent) {
   if (rightToolBar.dataset.activeTool === "eraser") {
@@ -86,7 +105,6 @@ function drawLine(e) {
   ctx.beginPath()
   ctx.moveTo(startX, startY)
   ctx.lineTo(e.offsetX, e.offsetY)
-  ctx.lineWidth = 2
   ctx.stroke()
 }
 
