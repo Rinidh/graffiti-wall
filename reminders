@@ -1,16 +1,17 @@
-linedash
+gpt: filling already drawn shape - try little,if very complex, just implement fill mode / stroke mode
 
 ---------------------
 goals till Fri:
 - able to draw lines & rects & circles, draggable ends
 - eraser & tooltips
 - dialog box for: 1. style line width (num input) 2. set dash (on/off)
-- able to fill colors
+- able to fill colors : fill mode / stroke mode
 - import img
 - save painting
 
 
 Extras in future (see original plan):
+- filling in ellipses
 - responsive design
 - more features, UI, and overall feel, like Paint desktop app (after you've got some xp)
 - fill gradients

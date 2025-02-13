@@ -11,16 +11,18 @@ board.height = board.clientHeight //without explicitly setting these two to matc
 board.width = board.clientWidth
 
 let ctx = board.getContext("2d")
-let startX, startY
+let startX, startY, dx, dy
 let isDrawing = false //isDrawing is true when mousedown always, hence alternative name: "isMouseDown"
 let snapshot
 ctx.lineWidth = 1 //default
 ctx.setLineDash([]) //solid (no dash)
 
+const allDrawingsSet = new Set() //to store history / info about store all the drawn shapes
 
-///
-// ctx.strokeStyle = "red"
-// board.style.backgroundColor = "black"
+///to use in dark mode
+ctx.strokeStyle = "red"
+ctx.fillStyle = "red"
+board.style.backgroundColor = "black"
 
 toolIcons.forEach((icon, idx) => {
   //for all icons
@@ -44,6 +46,11 @@ toolIcons.forEach((icon, idx) => {
       icon.addEventListener("click", () => {
         eraser.style.display = "block"
       })
+
+      break
+
+    case "fill":
+      board.addEventListener("click", handleColorFill)
 
       break
   }
@@ -72,6 +79,19 @@ board.addEventListener("mousedown", (e) => {
 
 board.addEventListener("mouseup", () => {
   isDrawing = false
+
+  if (rightToolBar.dataset.activeTool !== "fill") { //don't add new data when clicks occur for filling
+    allDrawingsSet.add({
+      tool: rightToolBar.dataset.activeTool,
+      type: "stroke",
+      startX,
+      startY,
+      dx,
+      dy,
+    })
+
+  }
+
 })
 
 board.addEventListener("mousemove", handleMouseMove)
@@ -122,7 +142,9 @@ function handleMouseMove(mouseEvent) {
       break;
 
     case "rectangle":
-      drawRectangle(mouseEvent)
+      dx = mouseEvent.offsetX - startX
+      dy = mouseEvent.offsetY - startY
+      drawRectangle(startX, startY, dx, dy)
       break;
 
     case "eraser":
@@ -130,6 +152,42 @@ function handleMouseMove(mouseEvent) {
       break
   }
 
+}
+
+function handleColorFill(e) {
+  if (rightToolBar.dataset.activeTool !== "fill") return
+
+  allDrawingsSet.forEach((drawing) => {
+    const startX = drawing.startX
+    const startY = drawing.startY
+    const endX = parseInt(drawing.startX + drawing.dx)
+    const endY = parseInt(drawing.startY + drawing.dy)
+
+    //check if user clicked inside the reactangle before filling
+    if (e.offsetX >= startX &&
+      e.offsetX <= endX &&
+      e.offsetY >= startY &&
+      e.offsetY <= endY
+    ) {
+      drawing.type = "fill"
+    }
+  })
+
+  //redraw all shapes, filling only the one inside which the user clicked
+  ctx.clearRect(0, 0, board.width, board.height)
+  allDrawingsSet.forEach((data) => {
+    const { startX, startY, dx, dy } = data
+
+    if (data.type === "fill") {
+      drawRectangle(startX, startY, dx, dy, "fill")
+
+    } else {
+      drawRectangle(startX, startY, dx, dy, "stroke")
+    }
+  })
+
+  //similarly like above (checking then drawing), also handle filling for ellipses...
+  //similarly update the drawCircle() func
 }
 
 function drawLine(e) {
@@ -141,18 +199,21 @@ function drawLine(e) {
 
 function drawCircle(e) {
   ctx.beginPath()
-  const dx = Math.abs(e.offsetX - startX)
-  const dy = Math.abs(e.offsetY - startY)
+  dx = Math.abs(e.offsetX - startX)
+  dy = Math.abs(e.offsetY - startY)
   ctx.ellipse(startX, startY, dx, dy, 0, 0, Math.PI * 2, false)
   ctx.stroke()
 }
 
-function drawRectangle(e) {
+function drawRectangle(startX, startY, dx, dy, type) {
   ctx.beginPath()
-  const dx = e.offsetX - startX
-  const dy = e.offsetY - startY
   ctx.rect(startX, startY, dx, dy)
-  ctx.stroke()
+
+  if (type === "fill") {
+    ctx.fill()
+  } else {
+    ctx.stroke()
+  }
 }
 
 function erase(e) {
@@ -164,4 +225,5 @@ function erase(e) {
   ctx.clearRect(eraserX - 6, eraserY - 6, eraserWidth, eraserHeight) // minus 6 to bring the cursor at center of box instead of top left corner
   snapshot = ctx.getImageData(0, 0, board.width, board.height)
 }
+
 
