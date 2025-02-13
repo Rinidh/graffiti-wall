@@ -20,35 +20,43 @@ ctx.lineWidth = 1 //default
 // board.style.backgroundColor = "black"
 
 toolIcons.forEach((icon, idx) => {
+  //for all icons
   icon.addEventListener("click", () => {
-    removeActiveClassAll()
-
+    resetTools()
     rightToolBar.dataset.activeTool = icon.dataset.toolName
     icon.classList.add("active")
-
-    if (rightToolBar.dataset.activeTool === "eraser") {
-      eraser.style.display = "block"
-    } else {
-      eraser.style.display = "none"
-    }
-
-    if (rightToolBar.dataset.activeTool === "line") {
-      dialog.style.display = "block"
-      lineOptions.style.display = "block"
-    } else {
-      dialog.style.display = "none"
-      lineOptions.style.display = "none"
-
-    }
   })
+
+  //operations specific to an icon
+  switch (icon.dataset.toolName) {
+    case "line":
+      icon.addEventListener("click", () => {
+        dialog.style.display = "block"
+        lineOptions.style.display = "block"
+      })
+
+      break
+
+    case "eraser":
+      icon.addEventListener("click", () => {
+        eraser.style.display = "block"
+      })
+
+      break
+  }
+
 })
 
-function removeActiveClassAll() {
+
+function resetTools() {
+  //used to deavtivate all tools (remove classes), hide eraser box, dialog box etc when its tool not selected
   toolIcons.forEach((elem) => {
     elem.classList.remove("active")
     rightToolBar.dataset.activeTool = "none"
   })
-
+  dialog.style.display = "none"
+  lineOptions.style.display = "none"
+  eraser.style.display = "none"
 }
 
 
@@ -130,7 +138,7 @@ function erase(e) {
   const eraserWidth = eraser.clientWidth
   const eraserHeight = eraser.clientHeight
 
-  ctx.clearRect(eraserX, eraserY, eraserWidth, eraserHeight)
+  ctx.clearRect(eraserX - 6, eraserY - 6, eraserWidth, eraserHeight) // minus 6 to bring the cursor at center of box instead of top left corner
   snapshot = ctx.getImageData(0, 0, board.width, board.height)
 }
 
