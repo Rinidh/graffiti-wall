@@ -1,0 +1,11 @@
+.eraser {
+  display: none;
+  cursor: none;
+  pointer-events: none;
+  position: absolute;
+  background-color: black;
+  height: 20px;
+  width: 20px;
+  border-radius: 3px;
+  transition: none;
+}

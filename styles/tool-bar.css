@@ -4,6 +4,7 @@
   width: 50px;
   display: flex;
   flex-direction: column;
+  cursor: grab;
 }
 
 .tool-bar i {
@@ -24,4 +25,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.toolbar .eraser {
+  font-size: 18px;
 }

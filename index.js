@@ -1,18 +1,19 @@
 const toolIcons = document.querySelectorAll(".tool-bar i")
 const rightToolBar = document.querySelector(".tool-bar.right-bar")
 const board = document.querySelector(".board")
+const eraser = document.querySelector(".eraser")
 
 board.height = board.clientHeight //without explicitly setting these two to match CSS width (clientWidth) & CSS height (clientHeight), lines are drawn at default canvas 300 X 150 px size, appearing at weird postions on this big canvas
 board.width = board.clientWidth
 
 let ctx = board.getContext("2d")
 let startX, startY
-let isDrawing = false
+let isDrawing = false //isDrawing is true when mousedown always, hence alternative name: "isMouseDown"
 let snapshot
 
 ///
-ctx.strokeStyle = "red"
-board.style.backgroundColor = "black"
+// ctx.strokeStyle = "red"
+// board.style.backgroundColor = "black"
 
 toolIcons.forEach((icon, idx) => {
   icon.addEventListener("click", () => {
@@ -20,6 +21,12 @@ toolIcons.forEach((icon, idx) => {
 
     rightToolBar.dataset.activeTool = icon.dataset.toolName
     icon.classList.add("active")
+
+    if (rightToolBar.dataset.activeTool === "eraser") {
+      eraser.style.display = "block"
+    } else {
+      eraser.style.display = "none"
+    }
   })
 })
 
@@ -46,6 +53,11 @@ board.addEventListener("mouseup", () => {
 board.addEventListener("mousemove", handleMouseMove)
 
 function handleMouseMove(mouseEvent) {
+  if (rightToolBar.dataset.activeTool === "eraser") {
+    eraser.style.top = `${mouseEvent.clientY - 6}px`
+    eraser.style.left = `${mouseEvent.clientX - 6}px`
+  }
+
   if (!isDrawing) return
 
   ctx.clearRect(0, 0, board.width, board.height) //canvas elems have .height & .width, more accurate than .clientHeight & .clientWidth global props
@@ -63,6 +75,9 @@ function handleMouseMove(mouseEvent) {
       drawRectangle(mouseEvent)
       break;
 
+    case "eraser":
+      erase(mouseEvent)
+      break
   }
 
 }
@@ -90,3 +105,14 @@ function drawRectangle(e) {
   ctx.rect(startX, startY, dx, dy)
   ctx.stroke()
 }
+
+function erase(e) {
+  const eraserX = e.offsetX
+  const eraserY = e.offsetY
+  const eraserWidth = eraser.clientWidth
+  const eraserHeight = eraser.clientHeight
+
+  ctx.clearRect(eraserX, eraserY, eraserWidth, eraserHeight)
+  snapshot = ctx.getImageData(0, 0, board.width, board.height)
+}
+
