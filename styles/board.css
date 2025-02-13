@@ -27,11 +27,14 @@
 .line-options {
   /* show different options (line-options or color-options) when different tools are selected */
   display: none;
+  align-items: center;
 }
 
 .line-options input {
   padding: 3px;
+  margin-right: 30px;
   border: 3px solid var(--background-gray);
+  max-width: 60px;
 }
 
 .line-options input:focus {

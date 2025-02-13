@@ -5,6 +5,7 @@ const eraser = document.querySelector(".eraser")
 const dialog = document.querySelector(".dialog")
 const lineOptions = document.querySelector(".line-options")
 const lineWidthInput = document.querySelector("#line-width")
+const lineDashRadioBtns = document.querySelectorAll(".line-dash input")
 
 board.height = board.clientHeight //without explicitly setting these two to match CSS width (clientWidth) & CSS height (clientHeight), lines are drawn at default canvas 300 X 150 px size, appearing at weird postions on this big canvas
 board.width = board.clientWidth
@@ -14,6 +15,8 @@ let startX, startY
 let isDrawing = false //isDrawing is true when mousedown always, hence alternative name: "isMouseDown"
 let snapshot
 ctx.lineWidth = 1 //default
+ctx.setLineDash([]) //solid (no dash)
+
 
 ///
 // ctx.strokeStyle = "red"
@@ -32,7 +35,7 @@ toolIcons.forEach((icon, idx) => {
     case "line":
       icon.addEventListener("click", () => {
         dialog.style.display = "block"
-        lineOptions.style.display = "block"
+        lineOptions.style.display = "flex"
       })
 
       break
@@ -77,6 +80,26 @@ lineWidthInput.addEventListener("change", (e) => {
   const val = parseInt(e.target.value)
 
   if (val >= 1 && val <= 5) ctx.lineWidth = val
+})
+
+lineDashRadioBtns.forEach((radio) => {
+  radio.addEventListener("click", () => {
+    switch (radio.id) {
+      case "solid":
+        ctx.setLineDash([])
+        break;
+      case "1-to-1":
+        ctx.setLineDash([5, 5])
+
+        break;
+      case "1-to-2-to-1":
+        ctx.setLineDash([5, 10, 5])
+
+        break;
+    }
+
+  })
+
 })
 
 function handleMouseMove(mouseEvent) {
