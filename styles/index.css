@@ -51,11 +51,13 @@ ol {
 /* custom css properties */
 :root {
   --brand: rgb(0, 0, 77);
+  --background-gray: rgba(244, 244, 244, 1);
+  --shadow-gray: rgba(0, 0, 0, 0.307);
 }
 
 /* Apply my/NEW styles */
 body {
-  /* background-color: black; */
+  font-size: 16px;
 }
 
 main {

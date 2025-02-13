@@ -64,17 +64,31 @@
     </section>
 
     <section class="right-bar tool-bar" data-active-tool='none'>
-      <i class="fa-solid fa-slash" data-tool-name='line'></i>
-      <i class="fa-regular fa-circle" data-tool-name='circle'></i>
-      <i class="fa-regular fa-square" data-tool-name='rectangle'></i>
-      <i class="fa-solid fa-square" data-tool-name='eraser'></i>
+      <div class="tool-container">
+        <i class="fa-solid fa-slash" data-tool-name='line'></i>
+        <div class="tool-tip  poppins-medium-italic">Line</div>
+      </div>
+      <div class="tool-container">
+        <i class="fa-regular fa-circle" data-tool-name='circle'></i>
+        <div class="tool-tip  poppins-medium-italic">Ellipse</div>
+      </div>
+      <div class="tool-container">
+        <i class="fa-regular fa-square" data-tool-name='rectangle'></i>
+        <div class="tool-tip  poppins-medium-italic">Rectangle</div>
+      </div>
+      <div class="tool-container">
+        <i class="fa-solid fa-square" data-tool-name='eraser'></i>
+        <div class="tool-tip  poppins-medium-italic">Eraser</div>
+      </div>
+
     </section>
 
   </main>
 
   <div class="eraser"></div>
 
-  <script src='./index.js'></script>
+  <script src='./scripts/index.js'></script>
+  <script src='./scripts/tools-and-board.js'></script>
 </body>
 
 </html>

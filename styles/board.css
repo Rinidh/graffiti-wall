@@ -1,8 +1,5 @@
 .board-container {
-  --board-gray: rgb(244, 244, 244);
-  --shadow-gray: rgba(0, 0, 0, 0.307);
-
-  background-color: var(--board-gray);
+  background-color: var(--background-gray);
   position: relative;
   display: flex;
   justify-content: center;
@@ -17,7 +14,7 @@
 }
 
 .dialog {
-  background-color: var(--board-gray);
+  background-color: var(--background-gray);
   position: absolute;
   top: -15px;
   padding: 10px;
