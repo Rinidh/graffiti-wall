@@ -1,4 +1,7 @@
----
+learn custom events. tirgger handleImageLoad, or file reading on custom ev
+
+
+---------
 goals till Fri:
   - able to draw lines & rects & circles, draggable ends
   - eraser & tooltips

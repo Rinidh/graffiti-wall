@@ -12,7 +12,7 @@ board.height = board.clientHeight //without explicitly setting these two to matc
 board.width = board.clientWidth
 
 let ctx = board.getContext("2d")
-let startX, startY, dx, dy
+let startX, startY, width, height
 let isDrawing = false //isDrawing is true when mousedown always, hence alternative name: "isMouseDown"
 let snapshot
 ctx.lineWidth = 1 //default
@@ -92,8 +92,8 @@ board.addEventListener("mouseup", () => {
       type: "stroke",
       startX,
       startY,
-      dx,
-      dy,
+      width,
+      height,
     })
 
   }
@@ -148,9 +148,9 @@ function handleMouseMove(mouseEvent) {
       break;
 
     case "rectangle":
-      dx = mouseEvent.offsetX - startX
-      dy = mouseEvent.offsetY - startY
-      drawRectangle(startX, startY, dx, dy)
+      width = mouseEvent.offsetX - startX
+      height = mouseEvent.offsetY - startY
+      drawRectangle(startX, startY, width, height)
       break;
 
     case "eraser":
@@ -182,13 +182,13 @@ function handleColorFill(e) {
   //redraw all shapes, filling only the one inside which the user clicked
   ctx.clearRect(0, 0, board.width, board.height)
   allDrawingsSet.forEach((data) => {
-    const { startX, startY, dx, dy } = data
+    const { startX, startY, width, height } = data
 
     if (data.type === "fill") {
-      drawRectangle(startX, startY, dx, dy, "fill")
+      drawRectangle(startX, startY, width, height, "fill")
 
     } else {
-      drawRectangle(startX, startY, dx, dy, "stroke")
+      drawRectangle(startX, startY, width, height, "stroke")
     }
   })
 
@@ -207,11 +207,9 @@ function handleImageLoad(e) {
       ctx.drawImage(img, 0, 0, 200, 200)
     }
 
-    console.log(loadEvent.target.result)
     img.src = loadEvent.target.result //not .value
   }
 
-  console.log(imgFile)
   if (imgFile) fileReader.readAsDataURL(imgFile)
 }
 
@@ -226,15 +224,15 @@ function drawLine(e) {
 
 function drawCircle(e) {
   ctx.beginPath()
-  dx = Math.abs(e.offsetX - startX)
-  dy = Math.abs(e.offsetY - startY)
-  ctx.ellipse(startX, startY, dx, dy, 0, 0, Math.PI * 2, false)
+  width = Math.abs(e.offsetX - startX)
+  height = Math.abs(e.offsetY - startY)
+  ctx.ellipse(startX, startY, width, height, 0, 0, Math.PI * 2, false)
   ctx.stroke()
 }
 
-function drawRectangle(startX, startY, dx, dy, type) {
+function drawRectangle(startX, startY, width, height, type) {
   ctx.beginPath()
-  ctx.rect(startX, startY, dx, dy)
+  ctx.rect(startX, startY, width, height)
 
   if (type === "fill") {
     ctx.fill()
@@ -252,5 +250,3 @@ function erase(e) {
   ctx.clearRect(eraserX - 6, eraserY - 6, eraserWidth, eraserHeight) // minus 6 to bring the cursor at center of box instead of top left corner
   snapshot = ctx.getImageData(0, 0, board.width, board.height)
 }
-
-
