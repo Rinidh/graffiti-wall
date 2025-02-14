@@ -17,28 +17,31 @@ const ctx = board.getContext("2d")
 //defaults
 let startX = 0
 let startY = 0
-let width = board.width
-let height = board.height
+let width = 0 //default width without any tool selected or used yet
+let height = 0
 let fillImage = ""
 let isDrawing = false //isDrawing is true when mousedown always, hence alternative name: "isMouseDown"
 let snapshot
+let color = "#fff";
 ctx.lineWidth = 1 //default
 ctx.setLineDash([]) //solid (no dash)
-ctx.fillStyle = "white"
-drawRectangle(0, 0, board.width, board.height, "fill") //initial white background
-allDrawingsSet.add({ //record data of initial drawing as white background
+drawRectangle(0, 0, board.width, board.height, "fill", color) //initial white background
+allDrawingsSet.add({ //record data of initial drawing as white background rectangle
   tool: "rectangle",
   type: "fill",
+  color,
   startX,
   startY,
-  width,
-  height,
+  width: board.width,
+  height: board.height,
 })
+ctx.fillStyle = "#000" //default for all drawings
+ctx.strokeStyle = "#000"
 
 
 ///to use in dark mode
-ctx.strokeStyle = "red"
-ctx.fillStyle = "red"
+// ctx.strokeStyle = "red"
+// ctx.fillStyle = "red"
 // board.style.backgroundColor = "black"
 
 toolIcons.forEach((icon, idx) => {
@@ -115,7 +118,11 @@ board.addEventListener("mousedown", (e) => {
 board.addEventListener("mouseup", () => {
   isDrawing = false
 
-  if (rightToolBar.dataset.activeTool !== "fill") { //don't add new data when clicks occur for filling
+  if (
+    rightToolBar.dataset.activeTool !== "fill" && //don't add new data when clicks occur for filling
+    height > 2 && //prevent adding shapes too small, or shapes drawn as a mere click on the board
+    width > 2
+  ) {
     allDrawingsSet.add({
       tool: rightToolBar.dataset.activeTool,
       type: "stroke",
@@ -126,6 +133,7 @@ board.addEventListener("mouseup", () => {
     })
 
   }
+  console.log(allDrawingsSet)
 
 })
 
@@ -168,8 +176,8 @@ function handleMouseMove(mouseEvent) {
   ctx.clearRect(0, 0, board.width, board.height) //canvas elems have .height & .width, more accurate than .clientHeight & .clientWidth global props
   ctx.putImageData(snapshot, 0, 0) //to preserve previous drawing while drawing new
 
-  width = mouseEvent.offsetX - startX
-  height = mouseEvent.offsetY - startY
+  width = Math.abs(mouseEvent.offsetX - startX)
+  height = Math.abs(mouseEvent.offsetY - startY)
 
   switch (rightToolBar.dataset.activeTool) {
     case "line":
@@ -263,15 +271,19 @@ function drawCircle(e) {
   ctx.stroke()
 }
 
-function drawRectangle(startX, startY, width, height, type) {
+function drawRectangle(startX, startY, width, height, type, color) {
   ctx.beginPath()
   ctx.rect(startX, startY, width, height)
 
   if (type === "fill") {
+    ctx.fillStyle = color
     ctx.fill()
   } else {
+    ctx.strokeStyle = color
     ctx.stroke()
   }
+
+  //also modify code of other shapes to implement startX, startY, color... args instead of e (event)
 }
 
 function erase(e) {
