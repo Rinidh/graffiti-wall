@@ -35,8 +35,9 @@ allDrawingsSet.add({ //record data of initial drawing as white background rectan
   width: board.width,
   height: board.height,
 })
-ctx.fillStyle = "#000" //default for all drawings
-ctx.strokeStyle = "#000"
+color = "#000" //default for all drawings
+ctx.fillStyle = color
+ctx.strokeStyle = color
 
 
 ///to use in dark mode
@@ -130,6 +131,7 @@ board.addEventListener("mouseup", () => {
       startY,
       width,
       height,
+      color
     })
 
   }
@@ -189,7 +191,7 @@ function handleMouseMove(mouseEvent) {
       break;
 
     case "rectangle":
-      drawRectangle(startX, startY, width, height)
+      drawRectangle(startX, startY, width, height, "stroke", color)
       break;
 
     case "eraser":
@@ -203,6 +205,7 @@ function handleMouseMove(mouseEvent) {
 
 }
 
+//currently, fill only works for rectangles
 function handleColorFill(e) {
   if (rightToolBar.dataset.activeTool !== "fill") return
 
@@ -225,13 +228,13 @@ function handleColorFill(e) {
   //redraw all shapes, filling only the one inside which the user clicked
   ctx.clearRect(0, 0, board.width, board.height)
   allDrawingsSet.forEach((data) => {
-    const { startX, startY, width, height } = data
+    const { startX, startY, width, height, color } = data
 
     if (data.type === "fill") {
-      drawRectangle(startX, startY, width, height, "fill")
+      drawRectangle(startX, startY, width, height, "fill", color)
 
     } else {
-      drawRectangle(startX, startY, width, height, "stroke")
+      drawRectangle(startX, startY, width, height, "stroke", color)
     }
   })
 

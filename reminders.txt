@@ -1,4 +1,3 @@
-always draw default white rect Background
 color diff fill
 
 ---------
@@ -12,6 +11,7 @@ goals till Fri:
 
 Extras in future (see original plan):
   - filling in ellipses
+  - add triangles
   - module-rize all js code
   - responsive design
   - more features, UI, and overall feel, like Paint desktop app (after you've got some xp)
