@@ -7,6 +7,7 @@ const lineOptions = document.querySelector(".line-options")
 const lineWidthInput = document.querySelector("#line-width")
 const lineDashRadioBtns = document.querySelectorAll(".line-dash input")
 const imageLoader = document.querySelector("#file-input")
+const colorInput = document.querySelector("#color-input")
 
 board.height = board.clientHeight //without explicitly setting these two to match CSS width (clientWidth) & CSS height (clientHeight), lines are drawn at default canvas 300 X 150 px size, appearing at weird postions on this big canvas
 board.width = board.clientWidth
@@ -22,7 +23,7 @@ let height = 0
 let fillImage = ""
 let isDrawing = false //isDrawing is true when mousedown always, hence alternative name: "isMouseDown"
 let snapshot
-let color = "#fff";
+let color = "#ffffff";
 ctx.lineWidth = 1 //default
 ctx.setLineDash([]) //solid (no dash)
 drawRectangle(0, 0, board.width, board.height, "fill", color) //initial white background
@@ -35,9 +36,10 @@ allDrawingsSet.add({ //record data of initial drawing as white background rectan
   width: board.width,
   height: board.height,
 })
-color = "#000" //default for all drawings
+color = "#000000" //default for all drawings
 ctx.fillStyle = color
 ctx.strokeStyle = color
+colorInput.value = color
 
 
 ///to use in dark mode
@@ -89,6 +91,12 @@ toolIcons.forEach((icon, idx) => {
         downloadLink.download = "graffiti-wall-drawing.png"
 
         downloadLink.click()
+      })
+      break
+
+    case "color-picker":
+      colorInput.addEventListener("change", (e) => { //though this code doesn't need a switch case, as it doesn't invlove its icon, but its input[type="color"]
+        color = e.target.value
       })
       break
   }
@@ -183,11 +191,11 @@ function handleMouseMove(mouseEvent) {
 
   switch (rightToolBar.dataset.activeTool) {
     case "line":
-      drawLine(mouseEvent)
+      drawLine(startX, startY, mouseEvent.offsetX, mouseEvent.offsetY, color)
       break;
 
     case "circle":
-      drawCircle(mouseEvent)
+      drawCircle(startX, startY, width, height, "stroke", color)
       break;
 
     case "rectangle":
@@ -261,17 +269,26 @@ function handleImageLoad(e) {
 
 
 //Utilities
-function drawLine(e) {
+function drawLine(startX, startY, endX, endY, color) {
   ctx.beginPath()
   ctx.moveTo(startX, startY)
-  ctx.lineTo(e.offsetX, e.offsetY)
+  ctx.lineTo(endX, endY)
+  ctx.strokeStyle = color
   ctx.stroke()
 }
 
-function drawCircle(e) {
+function drawCircle(startX, startY, width, height, type, color) {
   ctx.beginPath()
   ctx.ellipse(startX, startY, width, height, 0, 0, Math.PI * 2, false)
-  ctx.stroke()
+
+  if (type === "fill") {
+    ctx.fillStyle = color
+    ctx.fill()
+  } else {
+    ctx.strokeStyle = color
+    ctx.stroke()
+  }
+
 }
 
 function drawRectangle(startX, startY, width, height, type, color) {

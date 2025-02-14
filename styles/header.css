@@ -36,7 +36,7 @@ header h1 {
 .about-container .info {
   display: none;
   position: absolute;
-  top: 70%;
+  top: 100%;
   left: -20px;
   width: 300px;
   background-color: var(--brand);

@@ -10,13 +10,15 @@ goals till Fri:
   - save painting
 
 Extras in future (see original plan):
-  - filling in ellipses
-  - add triangles
   - module-rize all js code
-  - responsive design
-  - more features, UI, and overall feel, like Paint desktop app (after you've got some xp)
+  - filling in ellipses
+  - fill backgorund on cliking it with fill tool
+  - refill a shape with new color on fill tool click though already filled
   - fill gradients
+  - add triangles
   - write & style text
+  - more features, UI, and overall feel, like Paint desktop app (after you've got some xp)
+  - responsive design
 ---
 
 # Original Plan:
