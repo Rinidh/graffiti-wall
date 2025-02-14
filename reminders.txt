@@ -1,4 +1,3 @@
-fix filling
 when img tool select > first select img from folder > draw rects with filled img > draw circle comment
 
 ---------

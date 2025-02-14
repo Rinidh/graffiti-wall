@@ -12,7 +12,7 @@ board.height = board.clientHeight //without explicitly setting these two to matc
 board.width = board.clientWidth
 
 let ctx = board.getContext("2d")
-let startX, startY, width, height
+let startX, startY, width, height, fillImage
 let isDrawing = false //isDrawing is true when mousedown always, hence alternative name: "isMouseDown"
 let snapshot
 ctx.lineWidth = 1 //default
@@ -73,6 +73,7 @@ function resetTools() {
   dialog.style.display = "none"
   lineOptions.style.display = "none"
   eraser.style.display = "none"
+  fillImage = ""
 }
 
 
@@ -138,6 +139,10 @@ function handleMouseMove(mouseEvent) {
 
   ctx.clearRect(0, 0, board.width, board.height) //canvas elems have .height & .width, more accurate than .clientHeight & .clientWidth global props
   ctx.putImageData(snapshot, 0, 0) //to preserve previous drawing while drawing new
+
+  width = mouseEvent.offsetX - startX
+  height = mouseEvent.offsetY - startY
+
   switch (rightToolBar.dataset.activeTool) {
     case "line":
       drawLine(mouseEvent)
@@ -148,13 +153,15 @@ function handleMouseMove(mouseEvent) {
       break;
 
     case "rectangle":
-      width = mouseEvent.offsetX - startX
-      height = mouseEvent.offsetY - startY
       drawRectangle(startX, startY, width, height)
       break;
 
     case "eraser":
       erase(mouseEvent)
+      break
+
+    case "image":
+      drawImageRectangle(startX, startY, width, height, fillImage)
       break
   }
 
@@ -204,7 +211,7 @@ function handleImageLoad(e) {
     const img = new Image()
 
     img.onload = function () {
-      ctx.drawImage(img, 0, 0, 200, 200)
+      fillImage = img
     }
 
     img.src = loadEvent.target.result //not .value
@@ -224,8 +231,6 @@ function drawLine(e) {
 
 function drawCircle(e) {
   ctx.beginPath()
-  width = Math.abs(e.offsetX - startX)
-  height = Math.abs(e.offsetY - startY)
   ctx.ellipse(startX, startY, width, height, 0, 0, Math.PI * 2, false)
   ctx.stroke()
 }
@@ -249,4 +254,11 @@ function erase(e) {
 
   ctx.clearRect(eraserX - 6, eraserY - 6, eraserWidth, eraserHeight) // minus 6 to bring the cursor at center of box instead of top left corner
   snapshot = ctx.getImageData(0, 0, board.width, board.height)
+}
+
+function drawImageRectangle(startX, startY, width, height, img) {
+  if (!img) return
+
+  ctx.beginPath()
+  ctx.drawImage(img, startX, startY, width, height)
 }
