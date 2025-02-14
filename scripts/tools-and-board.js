@@ -21,9 +21,9 @@ ctx.setLineDash([]) //solid (no dash)
 const allDrawingsSet = new Set() //to store history / info about store all the drawn shapes
 
 ///to use in dark mode
-ctx.strokeStyle = "red"
-ctx.fillStyle = "red"
-board.style.backgroundColor = "black"
+// ctx.strokeStyle = "red"
+// ctx.fillStyle = "red"
+// board.style.backgroundColor = "black"
 
 toolIcons.forEach((icon, idx) => {
   //for all icons
@@ -166,8 +166,8 @@ function handleColorFill(e) {
   allDrawingsSet.forEach((drawing) => {
     const startX = drawing.startX
     const startY = drawing.startY
-    const endX = parseInt(drawing.startX + drawing.dx)
-    const endY = parseInt(drawing.startY + drawing.dy)
+    const endX = parseInt(drawing.startX + drawing.width)
+    const endY = parseInt(drawing.startY + drawing.height)
 
     //check if user clicked inside the reactangle before filling
     if (e.offsetX >= startX &&

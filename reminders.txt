@@ -1,5 +1,5 @@
-learn custom events. tirgger handleImageLoad, or file reading on custom ev
-
+fix filling
+when img tool select > first select img from folder > draw rects with filled img > draw circle comment
 
 ---------
 goals till Fri:
