@@ -6,6 +6,7 @@ const dialog = document.querySelector(".dialog")
 const lineOptions = document.querySelector(".line-options")
 const lineWidthInput = document.querySelector("#line-width")
 const lineDashRadioBtns = document.querySelectorAll(".line-dash input")
+const imageLoader = document.querySelector("#file-input")
 
 board.height = board.clientHeight //without explicitly setting these two to match CSS width (clientWidth) & CSS height (clientHeight), lines are drawn at default canvas 300 X 150 px size, appearing at weird postions on this big canvas
 board.width = board.clientWidth
@@ -51,6 +52,11 @@ toolIcons.forEach((icon, idx) => {
 
     case "fill":
       board.addEventListener("click", handleColorFill)
+
+      break
+
+    case "image":
+      imageLoader.addEventListener("change", handleImageLoad)
 
       break
   }
@@ -190,6 +196,27 @@ function handleColorFill(e) {
   //similarly update the drawCircle() func
 }
 
+function handleImageLoad(e) {
+  const imgFile = e.target.files[0]
+  const fileReader = new FileReader()
+
+  fileReader.onload = function (loadEvent) {
+    const img = new Image()
+
+    img.onload = function () {
+      ctx.drawImage(img, 0, 0, 200, 200)
+    }
+
+    console.log(loadEvent.target.result)
+    img.src = loadEvent.target.result //not .value
+  }
+
+  console.log(imgFile)
+  if (imgFile) fileReader.readAsDataURL(imgFile)
+}
+
+
+//Utilities
 function drawLine(e) {
   ctx.beginPath()
   ctx.moveTo(startX, startY)

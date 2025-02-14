@@ -4,7 +4,7 @@
   width: 50px;
   display: flex;
   flex-direction: column;
-  cursor: grab;
+  cursor: pointer;
 }
 
 .tool-bar i {
