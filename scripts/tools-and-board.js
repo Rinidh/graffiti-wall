@@ -312,7 +312,8 @@ function erase(e) {
   const eraserWidth = eraser.clientWidth
   const eraserHeight = eraser.clientHeight
 
-  ctx.clearRect(eraserX - 6, eraserY - 6, eraserWidth, eraserHeight) // minus 6 to bring the cursor at center of box instead of top left corner
+  ctx.fillStyle = "#ffffff" //fill background color
+  ctx.fillRect(eraserX - 6, eraserY - 6, eraserWidth, eraserHeight) // minus 6 to bring the cursor at center of box instead of top left corner
   snapshot = ctx.getImageData(0, 0, board.width, board.height)
 }
 
