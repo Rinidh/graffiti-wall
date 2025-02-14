@@ -1,4 +1,5 @@
-when img tool select > first select img from folder > draw rects with filled img > draw circle comment
+always draw default white rect Background
+color diff fill
 
 ---------
 goals till Fri:

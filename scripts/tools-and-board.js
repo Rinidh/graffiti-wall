@@ -1,4 +1,4 @@
-const toolIcons = document.querySelectorAll(".tool-bar i")
+const toolIcons = document.querySelectorAll(".tool-container i") //because save icon doesn't lie in .tool-bar
 const rightToolBar = document.querySelector(".tool-bar.right-bar")
 const board = document.querySelector(".board")
 const eraser = document.querySelector(".eraser")
@@ -11,18 +11,34 @@ const imageLoader = document.querySelector("#file-input")
 board.height = board.clientHeight //without explicitly setting these two to match CSS width (clientWidth) & CSS height (clientHeight), lines are drawn at default canvas 300 X 150 px size, appearing at weird postions on this big canvas
 board.width = board.clientWidth
 
-let ctx = board.getContext("2d")
-let startX, startY, width, height, fillImage
+const allDrawingsSet = new Set() //to store history / info about store all the drawn shapes
+const ctx = board.getContext("2d")
+
+//defaults
+let startX = 0
+let startY = 0
+let width = board.width
+let height = board.height
+let fillImage = ""
 let isDrawing = false //isDrawing is true when mousedown always, hence alternative name: "isMouseDown"
 let snapshot
 ctx.lineWidth = 1 //default
 ctx.setLineDash([]) //solid (no dash)
+ctx.fillStyle = "white"
+drawRectangle(0, 0, board.width, board.height, "fill") //initial white background
+allDrawingsSet.add({ //record data of initial drawing as white background
+  tool: "rectangle",
+  type: "fill",
+  startX,
+  startY,
+  width,
+  height,
+})
 
-const allDrawingsSet = new Set() //to store history / info about store all the drawn shapes
 
 ///to use in dark mode
-// ctx.strokeStyle = "red"
-// ctx.fillStyle = "red"
+ctx.strokeStyle = "red"
+ctx.fillStyle = "red"
 // board.style.backgroundColor = "black"
 
 toolIcons.forEach((icon, idx) => {
@@ -58,6 +74,18 @@ toolIcons.forEach((icon, idx) => {
     case "image":
       imageLoader.addEventListener("change", handleImageLoad)
 
+      break
+
+    case "save":
+      icon.addEventListener("click", () => {
+        const boardImageUrl = board.toDataURL("image/png")
+
+        const downloadLink = document.createElement("a")
+        downloadLink.href = boardImageUrl
+        downloadLink.download = "graffiti-wall-drawing.png"
+
+        downloadLink.click()
+      })
       break
   }
 
